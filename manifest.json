@@ -1,0 +1,15 @@
+{
+"name": "TTSTest",
+"description": "TTS Test",
+"version": "1.1",
+"permissions": [
+"experimental"
+],
+"app": {
+"launch": {
+"local_path": "test.html"
+}
+},
+"icons": {
+"128": "TTSTest.png"}
+}

@@ -1,0 +1,13 @@
+<html>
+Chrome Speaks<br><br>
+<form>
+<input type="text" name="words">
+<input type="submit" onclick="javascript:speak();">
+</form>
+
+<script language="JavaScript">
+function speak() {
+	chrome.experimental.tts.speak(document.forms[0]["words"].value);
+}
+</script>
+</html>
