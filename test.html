@@ -1,13 +1,51 @@
 <html>
-Chrome Speaks<br><br>
-<form>
+<script type="text/javascript" src="jquery-1.5.min.js"></script>
+Chrome Speech Example<br><br>
+<!--form>
 <input type="text" name="words">
-<input type="submit" onclick="javascript:speak();">
-</form>
+<input type="submit" onclick="javascript:chrome.experimental.tts.speak(document.forms[0]['words'].value);">
+</form-->
+
+<div class="latestBooks"></div><br>
+<div class="redirectFlag"></div>
 
 <script language="JavaScript">
+
+var apiKey = 'YOUR_API_KEY'; // get your API key from http://developer.bookshare.org by creating an account and then obtaining an PAPI key
+var i = 0;
+var introMsg = "The latest books on Bookshare are...";
+
 function speak() {
-	chrome.experimental.tts.speak(document.forms[0]["words"].value);
+    if ($('div.redirectFlag').text() != "") {
+		  var lastBook = i-1;
+		  var redirectMsg = "Redirecting to Bookshare page for " + books[lastBook].title + " by " + books[lastBook].author;
+		  $('div.redirectFlag').text(redirectMsg);
+		  chrome.experimental.tts.speak(redirectMsg,null,function(){
+		  window.location = "http://www.bookshare.org/browse/book/" + books[lastBook].id;
+      });
+    }
+    else {
+		if (i++ < books.length) {
+			$('div.latestBooks').html("<a href='http://www.bookshare.org/browse/book/" + books[i].id + "'>" + books[i].title +" by " + books[i].author + "</a><br>");
+			chrome.experimental.tts.speak(books[i].title + " by " + books[i].author,null,function(){speak();});
+		}
+	}
 }
+
+$('div.latestBooks').html(introMsg + "<br>");
+
+$(document).keypress(function() {
+	$('div.redirectFlag').text("Redirecting...");
+	chrome.experimental.tts.stop();
+});
+
+
+var jqxhr = $.getJSON('http://api.bookshare.org/book/browse/latest/format/json?api_key=' + apiKey, function(json) {
+   chrome.experimental.tts.speak(introMsg,null,function() {
+	books = json.bookshare.book.list.results;
+	speak();
+	});
+ });
+ 
 </script>
 </html>
