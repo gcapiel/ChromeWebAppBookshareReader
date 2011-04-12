@@ -20,14 +20,14 @@ function speak() {
 		  var lastBook = i-1;
 		  var redirectMsg = "Redirecting to Bookshare page for " + books[lastBook].title + " by " + books[lastBook].author;
 		  $('div.redirectFlag').text(redirectMsg);
-		  chrome.experimental.tts.speak(redirectMsg,null,function(){
+		  chrome.experimental.tts.speak(redirectMsg,{'rate': 1},function(){
 		  window.location = "http://www.bookshare.org/browse/book/" + books[lastBook].id;
       });
     }
     else {
 		if (i++ < books.length) {
 			$('div.latestBooks').html("<a href='http://www.bookshare.org/browse/book/" + books[i].id + "'>" + books[i].title +" by " + books[i].author + "</a><br>");
-			chrome.experimental.tts.speak(books[i].title + " by " + books[i].author,null,function(){speak();});
+			chrome.experimental.tts.speak(books[i].title + " by " + books[i].author,{'rate': 1},function(){speak();});
 		}
 	}
 }
@@ -41,7 +41,7 @@ $(document).keypress(function() {
 
 
 var jqxhr = $.getJSON('http://api.bookshare.org/book/browse/latest/format/json?api_key=' + apiKey, function(json) {
-   chrome.experimental.tts.speak(introMsg,null,function() {
+   chrome.experimental.tts.speak(introMsg,{'rate': 1},function() {
 	books = json.bookshare.book.list.results;
 	speak();
 	});
