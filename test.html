@@ -1,9 +1,10 @@
 <html>
 <script type="text/javascript" src="jquery-1.5.min.js"></script>
-Chrome Speech Search and TTS Example v2<br><br>
+<form id="searchform" onsubmit='return searchBKS();'>
+Chrome Speech Search and TTS Example v2<br>
+Speech Rate: <input type="text" value="1" name="rate"><br><br>
 <div class="introMsg" id="introMsg"></div><br><br>
 
-<form id="searchform" onsubmit='return searchBKS();'>
 <input type="text" name="search" x-webkit-speech=true onwebkitspeechchange='searchBKS(event);'>
 <input type="submit">
 </form>
@@ -16,7 +17,7 @@ Chrome Speech Search and TTS Example v2<br><br>
 <script language="JavaScript">
 
 var apiKey = ''; // get your API key from http://developer.bookshare.org by creating an account and then obtaining an PAPI key
-var speechRate = 0.8;
+var speechRate = parseFloat($('#searchform input[name="rate"]').val());
 var i = 0;
 var introMsg = "This app enables voice search and uses TTS to speak the search results.  After you hear the title and author of a book, you can hit any key to retrieve the synopsys of a book.";
 
@@ -83,6 +84,7 @@ $(document).keypress(function() {
 });
 $('div.synopsys').text(" ");
 $('div.latestBooks').text(" ");
+speechRate = parseFloat($('#searchform input[name="rate"]').val());
 
 var jqxhr = $.getJSON('http://api.bookshare.org/book/search/' + encodeURI($('#searchform input[name="search"]').val()) + '/format/json?api_key=' + apiKey, function(json) {
 	books = json.bookshare.book.list.result;
