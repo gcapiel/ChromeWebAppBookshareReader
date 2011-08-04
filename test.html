@@ -36,8 +36,6 @@ function speak() {
 		speakandHighlight("synopsys");
 		i = 0;
 		$('div.redirectFlag').text(" ");
-		//$('div.synopsys').text(" ");
-		//$('div.latestBooks').text(" ");
 		  
 		  // window.location = "http://www.bookshare.org/browse/book/" + books[lastBook].id;
       //});
@@ -83,6 +81,8 @@ $(document).keypress(function() {
 	// NEED TO FIGURE OUT HOW TO BRING THIS COMMAND BACK
 	//chrome.tts.stop();
 });
+$('div.synopsys').text(" ");
+$('div.latestBooks').text(" ");
 
 var jqxhr = $.getJSON('http://api.bookshare.org/book/search/' + encodeURI($('#searchform input[name="search"]').val()) + '/format/json?api_key=' + apiKey, function(json) {
 	books = json.bookshare.book.list.result;
