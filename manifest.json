@@ -3,7 +3,7 @@
 "description": "Latest Books on Bookshare",
 "version": "1.1",
 "permissions": [
-"tts","http://*.bookshare.org/"
+"tts","http://*.bookshare.org/","unlimitedStorage"
 ],
 "app": {
 "launch": {

@@ -1,10 +1,11 @@
 <html>
 <script type="text/javascript" src="jquery-1.5.min.js"></script>
-<form id="searchform" onsubmit='return searchBKS();'>
 Chrome Speech Search and TTS Example v2<br>
-Speech Rate: <input type="text" value="1" name="rate"><br><br>
-<div class="introMsg" id="introMsg"></div><br><br>
+<form id="rateform" onsubmit="setSpeechRate();">
+Speech Rate: <input type="text" value="" name="rate"><input type="submit" value="Set"><br><br>
 
+<div class="introMsg" id="introMsg"></div><br><br>
+<form id="searchform" onsubmit='return searchBKS();'>
 <input type="text" name="search" x-webkit-speech=true onwebkitspeechchange='searchBKS(event);'>
 <input type="submit">
 </form>
@@ -17,7 +18,7 @@ Speech Rate: <input type="text" value="1" name="rate"><br><br>
 <script language="JavaScript">
 
 var apiKey = ''; // get your API key from http://developer.bookshare.org by creating an account and then obtaining an PAPI key
-var speechRate = parseFloat($('#searchform input[name="rate"]').val());
+$('#rateform input[name="rate"]').val(getSpeechRate());
 var i = 0;
 var introMsg = "This app enables voice search and uses TTS to speak the search results.  After you hear the title and author of a book, you can hit any key to retrieve the synopsys of a book.";
 
@@ -45,7 +46,7 @@ function speak() {
 		if (i++ < books.length) {
 		    description = books[i].title +" by " + books[i].author;
 			$('div.latestBooks').html("<a href='http://www.bookshare.org/browse/book/" + books[i].id + "'>" + description + "</a><br>");
-			chrome.tts.speak(description,{'rate': speechRate, 'desiredEventTypes': ["word"], 'onEvent': function(event){if(event.charIndex>=description.length){speak();}}});
+			chrome.tts.speak(description,{'rate': getSpeechRate(), 'desiredEventTypes': ["word"], 'onEvent': function(event){if(event.charIndex>=description.length){speak();}}});
 			//chrome.tts.speak(books[i].title + " by " + books[i].author,{'rate': speechRate, 'enqueue': true});
 			//speak();
 		}
@@ -56,7 +57,7 @@ function speakandHighlight(speakDiv) {
 
 var elem = document.getElementById(speakDiv);
 var sentence = elem.innerHTML;
-chrome.tts.speak(sentence, {'rate': speechRate, 'desiredEventTypes': ["word"], 'onEvent': function(event){
+chrome.tts.speak(sentence, {'rate': getSpeechRate(), 'desiredEventTypes': ["word"], 'onEvent': function(event){
 
             //determine next word to highlight since the tts only returns the index of the word just spoken
             var currSentence = sentence.substr(event.charIndex, sentence.length);
@@ -84,7 +85,6 @@ $(document).keypress(function() {
 });
 $('div.synopsys').text(" ");
 $('div.latestBooks').text(" ");
-speechRate = parseFloat($('#searchform input[name="rate"]').val());
 
 var jqxhr = $.getJSON('http://api.bookshare.org/book/search/' + encodeURI($('#searchform input[name="search"]').val()) + '/format/json?api_key=' + apiKey, function(json) {
 	books = json.bookshare.book.list.result;
@@ -94,6 +94,18 @@ var jqxhr = $.getJSON('http://api.bookshare.org/book/search/' + encodeURI($('#se
  return false;
  
  }
+ 
+function getSpeechRate() {
+	var firstRun = (parseFloat(localStorage['speechrate']) > 0);
+	if (!firstRun) {
+	  localStorage['speechrate'] = '1';
+	} 
+	return (parseFloat(localStorage['speechrate']));
+}
+function setSpeechRate() {
+	localStorage['speechrate'] = $('#rateform input[name="rate"]').val();
+	return;
+}
  
 </script>
 
