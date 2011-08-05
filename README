@@ -1,18 +1,17 @@
 To install this sample Chrome Web App:
 
-1) In Chrome go to chrome://flags and enable on the Experimental Extension APIs
-2) Restart your browser
+1) Download the dev channel version of Chrome (14.0.835.15 or greater) from http://www.chromium.org/getting-involved/dev-channel
 
-Either
+And either
 
-3) Click on the BookshareChromeWebApp.crx file under Downloads and install the App.  You will see the app when you open a new tab
+2) Click on the BookshareChromeWebApp.crx file under Downloads and install the App.  You will see the app when you open a new tab
 
 or
 
-4) Using Git clone the files into an App folder in your web server directory
-5) Go to http://developer.bookshare.org, register and get an API key
-6) Edit the test.html file to use your API key
-7) Go to chrome://extensions, expand Developer Mode in the upper right and use pack extension button to pack the directory to which you downloaded your app files
-8) Clear your browsing data to make sure you have the latest version
-9) Point your browser to the .crx file created by the packing process and install the app
-10) Open a new tab and you will see the app.
+3) Using Git clone the files into an App folder in your web server directory
+4) Go to http://developer.bookshare.org, register and get an API key
+5) Edit the test.html file to use your API key
+6) Go to chrome://extensions, expand Developer Mode in the upper right and use pack extension button to pack the directory to which you downloaded your app files
+7) Clear your browsing data to make sure you have the latest version
+8) Point your browser to the .crx file created by the packing process and install the app
+9) Open a new tab and you will see the app.
